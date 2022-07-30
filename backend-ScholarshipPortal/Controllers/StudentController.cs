@@ -49,7 +49,7 @@ namespace backend_ScholarshipPortal.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return BadRequest(ex.InnerException.Message);
                 }
             }
             return Created("Record successfully added", student);
