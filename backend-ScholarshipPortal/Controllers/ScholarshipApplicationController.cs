@@ -49,6 +49,21 @@ namespace backend_ScholarshipPortal.Controllers
             }
             return Created("Application successfully added", scholarshipApplication);
         }
+        [HttpGet]
+        [Route("FindScholarshipApplication/{id}")]
+        public IActionResult GetScholarshipApplication(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest("id cannot be null");
+            }
+            var data = (from d in db.ScholarshipApplications where d.ApplicationId == id select d).FirstOrDefault();
+            if (data == null)
+            {
+                return NotFound($"Application {id} not present");
+            }
+            return Ok(data);
+        }
 
     }
 
