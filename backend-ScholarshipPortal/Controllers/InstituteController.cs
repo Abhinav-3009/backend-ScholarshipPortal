@@ -1,4 +1,5 @@
 ﻿using backend_ScholarshipPortal.Models;
+using backend_ScholarshipPortal.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +57,17 @@ namespace backend_ScholarshipPortal.Controllers
             var data =db.Database.ExecuteSqlInterpolated($"getofficerapprovalforinstitute");
             //db.Database.ExecuteSqlInterpolated($"adddept {dept.Id} ,{dept.Name}, {dept.Location}");
             return Ok(data);
+        }
+        [HttpPost]
+        [Route("InstituteLogin")]
+        public IActionResult PostStudentLogin(InstituteLogin login)
+        {
+            var data = db.Institutes.ToList();
+            var institute = (from d in data where d.Institutecode == login.InstituteCode && d.Password == login.Password select d).FirstOrDefault();
+
+            if (institute == null)
+                return BadRequest("Username or Password is Incorrect");
+            return Ok(institute.InstituteId);
         }
 
     }
