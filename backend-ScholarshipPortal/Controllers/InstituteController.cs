@@ -22,6 +22,21 @@ namespace backend_ScholarshipPortal.Controllers
             var data = from d in db.Institutes select d;
             return Ok(data);
         }
+        [HttpGet]
+        [Route("InstituteDetails/{id}")]
+        public IActionResult GetInstituteDetails(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest("id cannot be null");
+            }
+            var data = (from d in db.Institutes where d.InstituteId == id select d).FirstOrDefault();
+            if (data == null)
+            {
+                return NotFound($"Institute {id} not present");
+            }
+            return Ok(data);
+        }
 
 
         [HttpPost]
@@ -48,16 +63,16 @@ namespace backend_ScholarshipPortal.Controllers
             }
             return Created("Registration successfull", institute);
         }
-        [HttpGet]
-        [Route("InstituteForOfficer")]
-        public IActionResult GetInstituteForOfficer()
-        {
-            //var data = db.Institutes.Include("InstituteApproval").Where(d => d.InstituteApproval.ApprovedByNodalOfficer == 0);
-            //Console.WriteLine(data);
-            var data =db.Database.ExecuteSqlInterpolated($"getofficerapprovalforinstitute");
-            //db.Database.ExecuteSqlInterpolated($"adddept {dept.Id} ,{dept.Name}, {dept.Location}");
-            return Ok(data);
-        }
+        //[HttpGet]
+        //[Route("InstituteForOfficer")]
+        //public IActionResult GetInstituteForOfficer()
+        //{
+        //    //var data = db.Institutes.Include("InstituteApproval").Where(d => d.InstituteApproval.ApprovedByNodalOfficer == 0);
+        //    //Console.WriteLine(data);
+        //    var data =db.Database.ExecuteSqlInterpolated($"getofficerapprovalforinstitute");
+        //    //db.Database.ExecuteSqlInterpolated($"adddept {dept.Id} ,{dept.Name}, {dept.Location}");
+        //    return Ok(data);
+        //}
         [HttpPost]
         [Route("InstituteLogin")]
         public IActionResult PostStudentLogin(InstituteLogin login)

@@ -15,15 +15,16 @@ namespace backend_ScholarshipPortal.Controllers
     {
         ScholarshipPortalContext db = new ScholarshipPortalContext();
         [HttpGet]
-        [Route("ScholarshipForInstitute")]
-        public IActionResult GetScholarshipForInstitute()
+        [Route("ScholarshipForInstitute/{id}")]
+        public IActionResult GetScholarshipForInstitute(int? id)
         {
             //Console.WriteLine("Hello World");
-            var data = db.ScholarshipApprovals.Include("Application").Where(d => d.ApprovedByInstitute == 0).ToList();
+            var data = db.ScholarshipApprovals.Include("Application").Where(d => d.ApprovedByInstitute == 0 && d.Application.InstituteId==id).ToList();
+            var appl = (from d in data select new { d.Application.Religion, d.Application.Community, d.Application.Fathername }).FirstOrDefault();
 
             Console.WriteLine(data);
 
-            return Ok(data);
+            return Ok(appl);
         }
         [HttpGet]
         [Route("ScholarshipForOfficer")]

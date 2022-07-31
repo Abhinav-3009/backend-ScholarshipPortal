@@ -16,7 +16,7 @@ namespace backend_ScholarshipPortal.Controllers
         ScholarshipPortalContext db = new ScholarshipPortalContext();
 
         [HttpGet]
-        [Route("InstituteForOfficer")]
+        [Route("InstituteForOfficer/")]
         public IActionResult GetInstituteForOfficer()
         {
             //Console.WriteLine("Hello World");
