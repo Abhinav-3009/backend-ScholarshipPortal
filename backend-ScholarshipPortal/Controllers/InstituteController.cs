@@ -33,10 +33,16 @@ namespace backend_ScholarshipPortal.Controllers
                 {
                     db.Institutes.Add(institute);
                     db.SaveChanges();
+                    InstituteApproval approval = new InstituteApproval();
+                    var data = db.Institutes.ToList();
+                    var insid = (from d in data where d.Institutecode == institute.Institutecode select d.InstituteId).FirstOrDefault();
+                    approval.InstituteId = insid;
+                    db.InstituteApprovals.Add(approval);
+                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return BadRequest(ex.InnerException.Message);
                 }
             }
             return Created("Registration successfull", institute);

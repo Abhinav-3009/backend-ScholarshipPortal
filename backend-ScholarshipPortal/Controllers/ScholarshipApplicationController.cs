@@ -34,6 +34,13 @@ namespace backend_ScholarshipPortal.Controllers
                 {
                     db.ScholarshipApplications.Add(scholarshipApplication);
                     db.SaveChanges();
+                    ScholarshipApproval approval = new ScholarshipApproval();
+                    var data = db.ScholarshipApplications.ToList();
+                    var appid = (from d in data where d.StudentId == scholarshipApplication.StudentId select d.ApplicationId).FirstOrDefault();
+                    approval.ApplicationId = appid;
+                    db.ScholarshipApprovals.Add(approval);
+                    db.SaveChanges();
+
                 }
                 catch (Exception ex)
                 {
