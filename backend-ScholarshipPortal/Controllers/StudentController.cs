@@ -40,19 +40,21 @@ namespace backend_ScholarshipPortal.Controllers
         [Route("AddStudent")]
         public IActionResult PostStudent(Student student)
         {
+            Student data1 = new Student();
             if (ModelState.IsValid)
             {
                 try
                 {
                     db.Students.Add(student);
                     db.SaveChanges();
+                    data1 = (from d in db.Students where d.Aadhaar == student.Aadhaar select d).FirstOrDefault();
                 }
                 catch (Exception ex)
                 {
                     return BadRequest(ex.InnerException.Message);
                 }
             }
-            return Created("Record successfully added", student);
+            return Created("Record successfully added",data1.StudentId);
         }
         [HttpPost]
         [Route("StudentLogin")]
@@ -63,7 +65,7 @@ namespace backend_ScholarshipPortal.Controllers
 
             if (student == null)
                 return BadRequest("Username or Password is Incorrect");
-            return Ok(student);
+            return Ok(student.StudentId);
         }
     }
 }
