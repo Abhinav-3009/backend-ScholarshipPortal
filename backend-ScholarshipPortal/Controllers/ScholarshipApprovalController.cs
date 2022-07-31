@@ -20,7 +20,7 @@ namespace backend_ScholarshipPortal.Controllers
         {
             //Console.WriteLine("Hello World");
             var data = db.ScholarshipApprovals.Include("Application").Where(d => d.ApprovedByInstitute == 0 && d.Application.InstituteId==id).ToList();
-            var appl = (from d in data select new { d.Application.Religion, d.Application.Community, d.Application.Fathername }).FirstOrDefault();
+            var appl = (from d in data select new { d.Application.Religion, d.Application.Community, d.Application.Fathername });
 
             Console.WriteLine(data);
 
