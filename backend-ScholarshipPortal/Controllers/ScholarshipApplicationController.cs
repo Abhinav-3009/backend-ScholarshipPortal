@@ -16,14 +16,14 @@ namespace backend_ScholarshipPortal.Controllers
     {
         ScholarshipPortalContext db = new ScholarshipPortalContext();
 
-        [HttpGet]
-        [Route("ApplicationForOfficer")]
-        public IActionResult GetScholarshipApplicationForOfficer()
-        {
-            var data = db.ScholarshipApplications.Include("ScholarshipApproval").ToList();
-            Console.WriteLine(data);
-            return Ok(data);
-        }
+        //[HttpGet]
+        //[Route("ApplicationForOfficer")]
+        //public IActionResult GetScholarshipApplicationForOfficer()
+        //{
+        //    var data = db.ScholarshipApplications.Include("ScholarshipApproval").ToList();
+        //    Console.WriteLine(data);
+        //    return Ok(data);
+        //}
         [HttpPost]
         [Route("AddScholarshipApplication")]
         public IActionResult PostScholarshipApplication(ScholarshipApplication scholarshipApplication)
