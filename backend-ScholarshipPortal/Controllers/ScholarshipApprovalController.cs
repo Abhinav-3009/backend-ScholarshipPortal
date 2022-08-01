@@ -19,8 +19,8 @@ namespace backend_ScholarshipPortal.Controllers
         public IActionResult GetScholarshipForInstitute(int? id)
         {
             //Console.WriteLine("Hello World");
-            var data = db.ScholarshipApprovals.Include("Application").Where(d => d.ApprovedByInstitute == 0 && d.Application.InstituteId==id).ToList();
-            var appl = (from d in data select new { d.ApplicationId, d.Application.StudentId,d.Application.ScholarshipId,d.Application.PresentCourse});
+            var data = db.ScholarshipApprovals.Include("Application").Where(d => d.ApprovedByInstitute == 0 && d.Application.InstituteId == id).ToList();
+            var appl = (from d in data select new { d.ApplicationId, d.Application.StudentId, d.Application.ScholarshipId, d.Application.PresentCourse });
 
             Console.WriteLine(data);
 
@@ -31,7 +31,17 @@ namespace backend_ScholarshipPortal.Controllers
         public IActionResult GetScholarshipForOfficer()
         {
             //Console.WriteLine("Hello World");
-            var data = db.ScholarshipApprovals.Include("Application").Where(d => d.ApprovedByInstitute == 1 && d.ApprovedByNodalOfficer==0).ToList();
+            //var data = db.ScholarshipApprovals.Include("Application").Where(d => d.ApprovedByInstitute == 1 && d.ApprovedByNodalOfficer==0).ToList();
+
+            var data = from d in db.ScholarshipApprovals.Include("Application")
+                       where d.ApprovedByInstitute == 1 && d.ApprovedByNodalOfficer == 0
+                       select new
+                       {
+                           d.ApplicationId,
+                           d.Application.StudentId,
+                           d.Application.ScholarshipId,
+                           d.Application.PresentCourse
+                       };
 
             Console.WriteLine(data);
 
@@ -52,17 +62,40 @@ namespace backend_ScholarshipPortal.Controllers
         [Route("ApproveByInstitute/{id}")]
         public IActionResult PutApproveRequestByInstitute(int id)
         {
-            ScholarshipApproval data = db.ScholarshipApprovals.Find(id);
+
+            ScholarshipApproval data = db.ScholarshipApprovals.Where(d => d.ApplicationId == id).FirstOrDefault();
             data.ApprovedByInstitute= 1;
             db.SaveChanges();
             return Ok(data);
         }
+
         [HttpPut]
-        [Route("ApproveByOfficer")]
+        [Route("RejectByInstitute/{id}")]
+        public IActionResult PutRejectRequestByInstitute(int id)
+        {
+            ScholarshipApproval data = db.ScholarshipApprovals.Where(d => d.ApplicationId == id).FirstOrDefault();
+            data.ApprovedByInstitute = 2;
+            db.SaveChanges();
+            return Ok(data);
+        }
+
+
+        [HttpPut]
+        [Route("ApproveByOfficer/{id}")]
         public IActionResult PutApproveRequestByOfficer(int id)
         {
-            ScholarshipApproval data = db.ScholarshipApprovals.Find(id);
+            ScholarshipApproval data = db.ScholarshipApprovals.Where(d=> d.ApplicationId==id).FirstOrDefault();
             data.ApprovedByNodalOfficer = 1;
+            db.SaveChanges();
+            return Ok(data);
+        }
+
+        [HttpPut]
+        [Route("RejectByOfficer")]
+        public IActionResult PutRejectRequestByOfficer(int id)
+        {
+            ScholarshipApproval data = db.ScholarshipApprovals.Where(d => d.ApplicationId == id).FirstOrDefault();
+            data.ApprovedByNodalOfficer = 2;
             db.SaveChanges();
             return Ok(data);
         }

@@ -19,8 +19,30 @@ namespace backend_ScholarshipPortal.Controllers
         [Route("InstituteForOfficer/")]
         public IActionResult GetInstituteForOfficer()
         {
+            //var data = from d in db.ScholarshipApprovals.Include("Application")
+            //           where d.ApprovedByInstitute == 1 && d.ApprovedByNodalOfficer == 0
+            //           select new
+            //           {
+            //               d.ApplicationId,
+            //               d.Application.StudentId,
+            //               d.Application.ScholarshipId,
+            //               d.Application.PresentCourse
+            //           };
+
+            //Console.WriteLine(data);
+
+            //return Ok(data);
+
+
             //Console.WriteLine("Hello World");
-            var data = db.InstituteApprovals.Include("Institute").Where(d=>d.ApprovedByNodalOfficer==0).ToList();
+            var data = from d in db.InstituteApprovals.Include("Institute")
+                       where d.ApprovedByNodalOfficer == 0
+                       select new
+                       {
+                           d.InstituteId,
+                           d.Institute.InstituteCategory,
+                           d.Institute.Name
+                       };
             
             Console.WriteLine(data);
             
@@ -39,14 +61,25 @@ namespace backend_ScholarshipPortal.Controllers
         }
 
         [HttpPut]
-        [Route("ApproveRequestByOfficer")]
-        public IActionResult PutApproveRequestByOfficer([FromForm] int id)
+        [Route("ApproveRequestByOfficer/{id}")]
+        public IActionResult PutApproveRequestByOfficer(int id)
         {
-            InstituteApproval data = db.InstituteApprovals.Find(id);
+            InstituteApproval data = db.InstituteApprovals.Where(d=> d.InstituteId==id).FirstOrDefault();
             data.ApprovedByNodalOfficer = 1;
             db.SaveChanges();
             return Ok(data);
         }
+
+        [HttpPut]
+        [Route("RejectRequestByOfficer/{id}")]
+        public IActionResult PutRejectRequestByOfficer(int id)
+        {
+            InstituteApproval data = db.InstituteApprovals.Find(id);
+            data.ApprovedByNodalOfficer = 2;
+            db.SaveChanges();
+            return Ok(data);
+        }
+
         [HttpPut]
         [Route("ApproveRequestByMinistry")]
         public IActionResult PutApproveRequestByMinistry([FromForm] int id)
