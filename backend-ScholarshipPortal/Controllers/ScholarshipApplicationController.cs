@@ -58,6 +58,7 @@ namespace backend_ScholarshipPortal.Controllers
                 return BadRequest("id cannot be null");
             }
             var data = (from d in db.ScholarshipApplications where d.ApplicationId == id select d).FirstOrDefault();
+            //var data = (from d in db.ScholarshipApplications where d.ApplicationId == id select new { d.Religion, d.Community, d.State }).FirstOrDefault();
             if (data == null)
             {
                 return NotFound($"Application {id} not present");

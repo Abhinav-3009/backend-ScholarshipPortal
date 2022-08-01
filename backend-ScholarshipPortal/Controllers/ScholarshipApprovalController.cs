@@ -49,8 +49,8 @@ namespace backend_ScholarshipPortal.Controllers
             return Ok(data);
         }
         [HttpPut]
-        [Route("ApproveRequestByInstitute")]
-        public IActionResult PutApproveRequestByInstitute([FromForm] int id)
+        [Route("ApproveByInstitute/{id}")]
+        public IActionResult PutApproveRequestByInstitute(int id)
         {
             ScholarshipApproval data = db.ScholarshipApprovals.Find(id);
             data.ApprovedByInstitute= 1;
@@ -58,8 +58,8 @@ namespace backend_ScholarshipPortal.Controllers
             return Ok(data);
         }
         [HttpPut]
-        [Route("ApproveRequestByOfficer")]
-        public IActionResult PutApproveRequestByOfficer([FromForm] int id)
+        [Route("ApproveByOfficer")]
+        public IActionResult PutApproveRequestByOfficer(int id)
         {
             ScholarshipApproval data = db.ScholarshipApprovals.Find(id);
             data.ApprovedByNodalOfficer = 1;
@@ -67,7 +67,7 @@ namespace backend_ScholarshipPortal.Controllers
             return Ok(data);
         }
         [HttpPut]
-        [Route("ApproveRequestByMinistry")]
+        [Route("ApproveByMinistry")]
         public IActionResult PutApproveRequestByMinistry([FromForm] int id)
         {
             ScholarshipApproval data = db.ScholarshipApprovals.Find(id);
