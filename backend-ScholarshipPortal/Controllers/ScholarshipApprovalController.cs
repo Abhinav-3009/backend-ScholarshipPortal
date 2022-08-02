@@ -51,9 +51,16 @@ namespace backend_ScholarshipPortal.Controllers
         [Route("ScholarshipForMinistry")]
         public IActionResult GetScholarshipForMinistry()
         {
-            Console.WriteLine("Hello World");
-            var data = db.ScholarshipApprovals.Include("Application").Where(d => d.ApprovedByNodalOfficer == 1 && d.ApprovedByMinistry == 0).ToList();
-
+            var data = from d in db.ScholarshipApprovals.Include("Application")
+                       where  d.ApprovedByNodalOfficer == 1 && d.ApprovedByMinistry == 0
+                       select new
+                       {
+                           d.ApplicationId,
+                           d.Application.StudentId,
+                           d.Application.ScholarshipId,
+                           d.Application.PresentCourse
+                       };
+            
             Console.WriteLine(data);
 
             return Ok(data);
@@ -100,11 +107,21 @@ namespace backend_ScholarshipPortal.Controllers
             return Ok(data);
         }
         [HttpPut]
-        [Route("ApproveByMinistry")]
-        public IActionResult PutApproveRequestByMinistry([FromForm] int id)
+        [Route("ApproveByMinistry/{id}")]
+        public IActionResult PutApproveRequestByMinistry( int id)
         {
-            ScholarshipApproval data = db.ScholarshipApprovals.Find(id);
+            ScholarshipApproval data = db.ScholarshipApprovals.Where(d => d.ApplicationId == id).FirstOrDefault();
             data.ApprovedByMinistry = 1;
+            db.SaveChanges();
+            return Ok(data);
+        }
+
+        [HttpPut]
+        [Route("RejectByMinistry")]
+        public IActionResult PutRejectRequestByMinistry(int id)
+        {
+            ScholarshipApproval data = db.ScholarshipApprovals.Where(d => d.ApplicationId == id).FirstOrDefault();
+            data.ApprovedByMinistry = 2;
             db.SaveChanges();
             return Ok(data);
         }

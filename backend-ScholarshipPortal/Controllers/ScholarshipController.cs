@@ -36,5 +36,6 @@ namespace backend_ScholarshipPortal.Controllers
             return Ok(data);
         }
 
+
     }
 }

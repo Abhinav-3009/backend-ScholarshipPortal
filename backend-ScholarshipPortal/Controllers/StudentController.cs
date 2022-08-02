@@ -67,5 +67,21 @@ namespace backend_ScholarshipPortal.Controllers
                 return BadRequest("Username or Password is Incorrect");
             return Ok(student.StudentId);
         }
+
+        [HttpGet]
+        [Route("ApprovalStatus/{id}")]
+        public IActionResult GetApprovalStatus(int studentId)
+        {
+            var data = new ScholarshipApproval();
+            try
+            {
+                var appId = db.ScholarshipApplications.Where(d => d.StudentId == studentId).FirstOrDefault();
+                data = db.ScholarshipApprovals.Where(d => d.ApplicationId == appId.ApplicationId).FirstOrDefault();
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.InnerException.Message);
+            }
+            return Ok(data);
+        }
     }
 }
