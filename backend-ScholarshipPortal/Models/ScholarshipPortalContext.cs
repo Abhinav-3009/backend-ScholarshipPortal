@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace backend_ScholarshipPortal.Models
 {
+    /// <summary>
+    /// A DbContext instance represents a session with the database and can be used to query and save instances of your entities. DbContext is a combination of the Unit Of Work and Repository patterns. DbContext is the bridge between Entity Framework and Database. Whatever we are doing in Entity Framework (get data, save data, fetch data or any other opration) is done via DbContext.
+    /// </summary>
     public partial class ScholarshipPortalContext : DbContext
     {
         public ScholarshipPortalContext()

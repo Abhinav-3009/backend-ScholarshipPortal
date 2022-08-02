@@ -14,6 +14,13 @@ namespace backend_ScholarshipPortal.Controllers
     public class ScholarshipApprovalController : ControllerBase
     {
         ScholarshipPortalContext db = new ScholarshipPortalContext();
+
+
+        /// <summary>
+        /// method to get applications according to a specific institute
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("ScholarshipForInstitute/{id}")]
         public IActionResult GetScholarshipForInstitute(int? id)
@@ -26,6 +33,12 @@ namespace backend_ScholarshipPortal.Controllers
 
             return Ok(appl);
         }
+
+
+        /// <summary>
+        /// method to get applications for the officer
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("ScholarshipForOfficer")]
         public IActionResult GetScholarshipForOfficer()
@@ -47,6 +60,12 @@ namespace backend_ScholarshipPortal.Controllers
 
             return Ok(data);
         }
+
+
+        /// <summary>
+        /// method to get applications for the ministry
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("ScholarshipForMinistry")]
         public IActionResult GetScholarshipForMinistry()
@@ -65,6 +84,13 @@ namespace backend_ScholarshipPortal.Controllers
 
             return Ok(data);
         }
+
+
+        /// <summary>
+        /// method to approve applications by the institute
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("ApproveByInstitute/{id}")]
         public IActionResult PutApproveRequestByInstitute(int id)
@@ -76,6 +102,12 @@ namespace backend_ScholarshipPortal.Controllers
             return Ok(data);
         }
 
+
+        /// <summary>
+        /// method to reject applications by the institute
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("RejectByInstitute/{id}")]
         public IActionResult PutRejectRequestByInstitute(int id)
@@ -87,6 +119,12 @@ namespace backend_ScholarshipPortal.Controllers
         }
 
 
+
+        /// <summary>
+        /// method to approve applications by the officer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("ApproveByOfficer/{id}")]
         public IActionResult PutApproveRequestByOfficer(int id)
@@ -97,6 +135,13 @@ namespace backend_ScholarshipPortal.Controllers
             return Ok(data);
         }
 
+
+
+        /// <summary>
+        /// method to reject applications by the institute
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("RejectByOfficer")]
         public IActionResult PutRejectRequestByOfficer(int id)
@@ -106,6 +151,13 @@ namespace backend_ScholarshipPortal.Controllers
             db.SaveChanges();
             return Ok(data);
         }
+
+
+        /// <summary>
+        /// method to approve applications by the miinistry
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("ApproveByMinistry/{id}")]
         public IActionResult PutApproveRequestByMinistry( int id)
@@ -116,6 +168,13 @@ namespace backend_ScholarshipPortal.Controllers
             return Ok(data);
         }
 
+
+
+        /// <summary>
+        /// method to reject applications by the ministry
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("RejectByMinistry")]
         public IActionResult PutRejectRequestByMinistry(int id)

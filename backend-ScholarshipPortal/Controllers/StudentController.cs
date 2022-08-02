@@ -9,11 +9,15 @@ using System.Threading.Tasks;
 
 namespace backend_ScholarshipPortal.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
         ScholarshipPortalContext db = new ScholarshipPortalContext();
+
+
+        //Method to fetch all student details
         [HttpGet]
         [Route("StudentDetails")]
         public IActionResult GetStudentDetails()
@@ -21,6 +25,9 @@ namespace backend_ScholarshipPortal.Controllers
             var data = from d in db.Students select d;
             return Ok(data);
         }
+
+
+        //to fetch details of a specific student with it's ID
         [HttpGet]
         [Route("StudentDetails/{id}")]
         public IActionResult GetStudentDetails(int? id)
@@ -36,6 +43,13 @@ namespace backend_ScholarshipPortal.Controllers
             }
             return Ok(data);
         }
+
+
+        /// <summary>
+        /// method to add a new student in the database
+        /// </summary>
+        /// <param name="student"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("AddStudent")]
         public IActionResult PostStudent(Student student)
@@ -47,6 +61,7 @@ namespace backend_ScholarshipPortal.Controllers
                 {
                     db.Students.Add(student);
                     db.SaveChanges();
+                    //to fetch student id and pass it to the frontend
                     data1 = (from d in db.Students where d.Aadhaar == student.Aadhaar select d).FirstOrDefault();
                 }
                 catch (Exception ex)
@@ -56,6 +71,13 @@ namespace backend_ScholarshipPortal.Controllers
             }
             return Created("Record successfully added",data1);
         }
+
+
+        /// <summary>
+        /// method to check login details
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("StudentLogin")]
         public IActionResult PostStudentLogin(StudentLogin login)
@@ -68,19 +90,23 @@ namespace backend_ScholarshipPortal.Controllers
             return Ok(student.StudentId);
         }
 
+
+        /// <summary>
+        /// method to check approval status
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("ApprovalStatus/{id}")]
         public IActionResult GetApprovalStatus(int studentId)
         {
-            var data = new ScholarshipApproval();
-            try
-            {
-                var appId = db.ScholarshipApplications.Where(d => d.StudentId == studentId).FirstOrDefault();
-                data = db.ScholarshipApprovals.Where(d => d.ApplicationId == appId.ApplicationId).FirstOrDefault();
-            }catch(Exception ex)
-            {
-                return BadRequest(ex.InnerException.Message);
-            }
+            ScholarshipApproval data = new ScholarshipApproval();
+
+            var appId = db.ScholarshipApplications.Where(d => d.StudentId == studentId).FirstOrDefault();
+            data = db.ScholarshipApprovals.Where(d => d.ApplicationId == appId.ApplicationId).FirstOrDefault();
+
+
+
             return Ok(data);
         }
     }

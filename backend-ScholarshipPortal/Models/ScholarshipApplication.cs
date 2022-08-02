@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 namespace backend_ScholarshipPortal.Models
 {
+    /// <summary>
+    /// This cs file represents the structure of Scholarship Application table in the backend.
+    /// This will be used to create objects for processing of Application  data and retrive and send data to frontend.
+    /// </summary>
     public partial class ScholarshipApplication
     {
         public int ApplicationId { get; set; }

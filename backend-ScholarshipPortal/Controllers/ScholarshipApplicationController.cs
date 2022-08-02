@@ -24,6 +24,13 @@ namespace backend_ScholarshipPortal.Controllers
         //    Console.WriteLine(data);
         //    return Ok(data);
         //}
+
+
+        /// <summary>
+        /// method to add scholarship application in the database
+        /// </summary>
+        /// <param name="scholarshipApplication"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("AddScholarshipApplication")]
         public IActionResult PostScholarshipApplication(ScholarshipApplication scholarshipApplication)
@@ -52,6 +59,13 @@ namespace backend_ScholarshipPortal.Controllers
             }
             return Created("Application successfully added", scholarshipApplication);
         }
+
+
+        /// <summary>
+        /// method to find spcific scholarship application in the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("FindScholarshipApplication/{id}")]
         public IActionResult GetScholarshipApplication(int? id)

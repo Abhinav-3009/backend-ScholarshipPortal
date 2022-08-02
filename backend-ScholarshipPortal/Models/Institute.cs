@@ -7,6 +7,10 @@ namespace backend_ScholarshipPortal.Models
 {
     public partial class Institute
     {
+        /// <summary>
+        /// This cs file represents the structure of Institute table in the backend.
+        /// This will be used to create objects for processing of Institute data and retrive and send data to frontend.
+        /// </summary>
         public Institute()
         {
             ScholarshipApplications = new HashSet<ScholarshipApplication>();

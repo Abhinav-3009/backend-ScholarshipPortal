@@ -15,6 +15,12 @@ namespace backend_ScholarshipPortal.Controllers
     public class InstituteController : ControllerBase
     {
         ScholarshipPortalContext db = new ScholarshipPortalContext();
+
+
+        /// <summary>
+        /// method to fetch institute details
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("InstituteDetails")]
         public IActionResult GetInstituteDetails()
@@ -22,6 +28,13 @@ namespace backend_ScholarshipPortal.Controllers
             var data = from d in db.Institutes select d;
             return Ok(data);
         }
+
+
+        /// <summary>
+        /// method to fetch specific institute details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("InstituteDetails/{id}")]
         public IActionResult GetInstituteDetails(int? id)
@@ -39,6 +52,12 @@ namespace backend_ScholarshipPortal.Controllers
         }
 
 
+
+        /// <summary>
+        /// method to add institute details int the database
+        /// </summary>
+        /// <param name="institute"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("AddInstitute")]
         public IActionResult PostInstituteDetails(Institute institute)
@@ -73,6 +92,13 @@ namespace backend_ScholarshipPortal.Controllers
         //    //db.Database.ExecuteSqlInterpolated($"adddept {dept.Id} ,{dept.Name}, {dept.Location}");
         //    return Ok(data);
         //}
+
+
+        /// <summary>
+        /// method to fetch login details of institute
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("InstituteLogin")]
         public IActionResult PostStudentLogin(InstituteLogin login)
@@ -86,6 +112,12 @@ namespace backend_ScholarshipPortal.Controllers
         }
 
 
+
+        /// <summary>
+        /// method to find institute application
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("FindInstituteApplication/{id}")]
         public IActionResult GetInstituteApplication(int? id)
