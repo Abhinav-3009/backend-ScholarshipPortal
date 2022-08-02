@@ -32,6 +32,9 @@ namespace backend_ScholarshipPortal.Controllers
             {
                 try
                 {
+                    var studentdata = db.Students.Find(scholarshipApplication.StudentId);
+                    var institutedata = db.Institutes.Where(d => d.Institutecode == studentdata.Institutecode).FirstOrDefault();
+                    scholarshipApplication.InstituteId = institutedata.InstituteId;
                     db.ScholarshipApplications.Add(scholarshipApplication);
                     db.SaveChanges();
                     ScholarshipApproval approval = new ScholarshipApproval();
@@ -44,7 +47,7 @@ namespace backend_ScholarshipPortal.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return BadRequest(ex.InnerException.Message);
                 }
             }
             return Created("Application successfully added", scholarshipApplication);

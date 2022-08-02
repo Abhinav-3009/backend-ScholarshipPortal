@@ -54,7 +54,7 @@ namespace backend_ScholarshipPortal.Controllers
                     return BadRequest(ex.InnerException.Message);
                 }
             }
-            return Created("Record successfully added",data1.StudentId);
+            return Created("Record successfully added",data1);
         }
         [HttpPost]
         [Route("StudentLogin")]
