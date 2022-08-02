@@ -52,8 +52,14 @@ namespace backend_ScholarshipPortal.Controllers
         [Route("InstituteForMinistry")]
         public IActionResult GetInstituteForMinistry()
         {
-            Console.WriteLine("Hello World");
-            var data = db.InstituteApprovals.Include("Institute").Where(d => d.ApprovedByNodalOfficer == 1 && d.ApprovedByMinistry==0).ToList();
+            var data = from d in db.InstituteApprovals.Include("Institute")
+                       where d.ApprovedByMinistry == 0
+                       select new
+                       {
+                           d.InstituteId,
+                           d.Institute.InstituteCategory,
+                           d.Institute.Name
+                       };
 
             Console.WriteLine(data);
 
@@ -74,18 +80,28 @@ namespace backend_ScholarshipPortal.Controllers
         [Route("RejectRequestByOfficer/{id}")]
         public IActionResult PutRejectRequestByOfficer(int id)
         {
-            InstituteApproval data = db.InstituteApprovals.Find(id);
+            InstituteApproval data = db.InstituteApprovals.Where(d => d.InstituteId == id).FirstOrDefault();
             data.ApprovedByNodalOfficer = 2;
             db.SaveChanges();
             return Ok(data);
         }
 
         [HttpPut]
-        [Route("ApproveRequestByMinistry")]
-        public IActionResult PutApproveRequestByMinistry([FromForm] int id)
+        [Route("ApproveRequestByMinistry/{id}")]
+        public IActionResult PutApproveRequestByMinistry(int id)
         {
-            InstituteApproval data = db.InstituteApprovals.Find(id);
+            InstituteApproval data = db.InstituteApprovals.Where(d => d.InstituteId == id).FirstOrDefault();
             data.ApprovedByMinistry = 1;
+            db.SaveChanges();
+            return Ok(data);
+        }
+
+        [HttpPut]
+        [Route("RejectRequestByMinistry/{id}")]
+        public IActionResult PutRejectRequestByMinistry(int id)
+        {
+            InstituteApproval data = db.InstituteApprovals.Where(d => d.InstituteId == id).FirstOrDefault();
+            data.ApprovedByNodalOfficer = 2;
             db.SaveChanges();
             return Ok(data);
         }
